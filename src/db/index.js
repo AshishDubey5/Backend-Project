@@ -1,16 +1,22 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
 
+import dns from "node:dns";
+
+// Temporary workaround for local DNS SRV resolution issue.
+// Remove this once the local DNS configuration is fixed.
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 const connectDB = async () => {
   try {
-    const connectionInctance = await mongoose.connect(
+    const connectionInstance = await mongoose.connect(
       `${process.env.MONGODB_URI}/${DB_NAME}`
     );
     console.log(
-      `\n MongoDB connected !! DB HOST: ${connectionInctance.connection.host}`
+      `\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`
     );
   } catch (error) {
-    console.log("MONGODB connection error", error);
+    console.log("MONGODB connection FAILED ", error);
     process.exit(1);
   }
 };
