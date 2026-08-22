@@ -5,10 +5,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "message changed",
-  });
-
   // Steps nedded to register user (Assignment)
   /* Get user details from frontend
    Validation - not empty
@@ -24,9 +20,9 @@ const registerUser = asyncHandler(async (req, res) => {
   console.log("registerUser called");
 
   const { fullName, email, username, password } = req.body;
-  console.log("email: ", email);
-  console.log("BODY:", req.body);
-  console.log("FILES:", req.files);
+  // console.log("email: ", email);
+  // console.log("BODY:", req.body);
+  // console.log("FILES:", req.files);
 
   /* if (fullName === "") {
     throw new APIError(400, "fullname is required");
@@ -46,7 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
   // User.findOne() returns a Mongoose Query object.
   // And Query object is truthy, will always execute, even when the user doesn't exist.
-  console.log("Existing user:", existedUser);
+  // console.log("Existing user:", existedUser);
 
   if (existedUser) {
     throw new APIError(409, "User with email or username already exist");
@@ -54,7 +50,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Check for image/avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+  let coverImageLocalPath;
+  if (
+    req.files &&
+    Array.isArray(req.files.coverImage) &&
+    req.files.coverImage.length > 0
+  ) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
 
   if (!avatarLocalPath) {
     throw new APIError(400, "Avatar file is required");
@@ -64,19 +69,25 @@ const registerUser = asyncHandler(async (req, res) => {
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
+  // console.log("AVATAR RESULT:", avatar);
+  // console.log("COVER RESULT:", coverImage);
+  // console.log("Avatar Cloudinary URL:", avatar?.secure_url);
+  // console.log("Cover Cloudinary URL:", coverImage?.secure_url);
   if (!avatar) {
     throw new APIError(400, "Avatar file is required");
   }
 
   // Create user object - create entry in db
+  // console.log("fullName variable:", fullName);
   const user = await User.create({
-    fullName,
+    fullname: fullName,
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
     password,
     username: username.toLowerCase(),
   });
+  // console.log("USER DATA:", userData);
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
