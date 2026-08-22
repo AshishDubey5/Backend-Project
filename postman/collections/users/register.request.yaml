@@ -1,0 +1,40 @@
+$kind: http-request
+description: ""
+url: http://localhost:8000/api/v1/users/register
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: email
+      value: Dubey5776@gmail.com
+      description: ""
+      disabled: false
+    - type: text
+      key: password
+      value: "@shish"
+      description: ""
+      disabled: false
+    - type: text
+      key: username
+      value: __ashish__
+      description: ""
+      disabled: false
+    - type: file
+      key: coverImage
+      src:
+        - /C:/Users/dubey/OneDrive/Pictures/ChatGPT.png
+      description: ""
+      disabled: false
+    - type: file
+      key: avatar
+      src:
+        - /C:/Users/dubey/OneDrive/Pictures/beautiful-domestic-cat-laying-fence.jpg
+      description: ""
+      disabled: false
+    - type: text
+      key: fullName
+      value: Dubey ji
+      description: ""
+      disabled: false
+order: 3701065765426902
