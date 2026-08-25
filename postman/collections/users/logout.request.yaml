@@ -1,0 +1,5 @@
+$kind: http-request
+name: logout
+url: "{{server}}/users/logout"
+method: POST
+order: 4367034125247192
