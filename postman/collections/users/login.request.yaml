@@ -1,5 +1,15 @@
 $kind: http-request
-name: login
 url: "{{server}}/users/login"
 method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"email\": \"adarsh@gmail.com\",\r
+
+    \  \"password\": \"Srishti\",\r
+
+    \  \"username\": \"_adarsh\"\r
+
+    }"
 order: 4297074091102668

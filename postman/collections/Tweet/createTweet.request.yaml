@@ -5,7 +5,7 @@ body:
   type: json
   content: "{\r
 
-    \    \"content\": \"I am Ashish Dubey And this is a tweet\"\r
+    \    \"content\": \"I am Ashish Dubey And this tweet will be deleted\"\r
 
     }"
 order: 1788681472808

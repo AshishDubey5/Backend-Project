@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/tweets/6ab967734d77545eaa2e1b83"
+method: DELETE
+order: 3403516778561331

@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{server}}/tweets/6ab962c5bb3eeb78e601157f"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"content\": \"I am Ashish Dubey And this tweet is updated\"\r
+
+    }"
+order: 3298293670867277
