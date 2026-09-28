@@ -54,4 +54,29 @@ const publishAVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, createVideo, "Video uploaded successfully"));
 });
 
-export { publishAVideo };
+const getVideoById = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  //TODO: get video by id
+
+  if (!isValidObjectId(videoId)) {
+    throw new APIError(400, "Invalid video id");
+  }
+
+  const video = await Video.findOne({
+    _id: videoId,
+    owner: req.user?._id,
+  });
+
+  if (!video) {
+    throw new APIError(404, "video not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video fetched successfully"));
+});
+// findById -> find one document by id => _id
+// findOne -> find one document following specific conditions
+//    -> Find one video whose _id is videoId AND whose owner is the current user.
+
+export { publishAVideo, getVideoById };
