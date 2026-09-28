@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/videos/"
+method: GET
+order: 3816049309647676
