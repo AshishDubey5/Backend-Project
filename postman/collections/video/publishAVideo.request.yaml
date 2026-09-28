@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{server}}/videos"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: title
+      value: hostelCG
+      disabled: false
+    - type: text
+      key: description
+      value: hostle life
+      disabled: false
+    - type: file
+      key: thumbnail
+      src:
+        - /C:/Users/dubey/OneDrive/Pictures/Camera Roll/WIN_20260922_00_33_40_Pro.jpg
+      disabled: false
+    - type: file
+      key: videoFile
+      src:
+        - /C:/Users/dubey/OneDrive/Hostel CG/video_20251030_205627.mp4
+      disabled: false
+order: 1790590713423
