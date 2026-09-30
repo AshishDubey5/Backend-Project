@@ -1,4 +1,4 @@
 $kind: http-request
-url: "{{server}}/videos/"
+url: "{{server}}/videos/6aba910abdd24dbc67eaca43"
 method: GET
 order: 3816049309647676

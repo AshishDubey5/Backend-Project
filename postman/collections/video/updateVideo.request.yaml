@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/videos/"
+method: PATCH
+order: 4086920114469065
