@@ -79,4 +79,77 @@ const getVideoById = asyncHandler(async (req, res) => {
 // findOne -> find one document following specific conditions
 //    -> Find one video whose _id is videoId AND whose owner is the current user.
 
-export { publishAVideo, getVideoById };
+const updateVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const { title, description } = req.body;
+  //TODO: update video details like title, description, thumbnail
+
+  // 1. Validate video ID
+  if (!isValidObjectId(videoId)) {
+    throw new APIError(400, "invalid video id");
+  }
+
+  // 2. Find the video and verify ownership
+  const existingVideo = await Video.findOne({
+    _id: videoId,
+    owner: req.user._id,
+  });
+
+  if (!existingVideo) {
+    throw new APIError(404, "Video not found");
+  }
+
+  // 3. Prepare fields that need to be updated
+  const updateDetails = {};
+
+  if (title !== undefined) {
+    updateDetails.title = title;
+  }
+
+  if (description !== undefined) {
+    updateDetails.description = description;
+  }
+
+  // 4. Handle thumbnail if a new one was uploaded
+  if (req.file) {
+    const thumbnailLocalFilePath = req.file?.path;
+
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalFilePath);
+
+    if (!thumbnail) {
+      throw new APIError(
+        500,
+        "something went wrong while uploading the thumbnail"
+      );
+    }
+
+    updateDetails.thumbnail = thumbnail.url;
+  }
+
+  // 5. Make sure there is actually something to update
+  if (Object.keys(updateDetails).length === 0) {
+    throw new APIError(400, "At least one field is required to update");
+  }
+
+  // 6. Update the video
+  const updateVideo = await Video.findOneAndUpdate(
+    {
+      _id: videoId,
+      owner: req.user?._id,
+    },
+    {
+      $set: updateDetails,
+    },
+    {
+      returnDocument: "after",
+    }
+  );
+
+  // 7. Return updated video
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updateVideo, "Video details updated successfully")
+    );
+});
+export { publishAVideo, getVideoById, updateVideo };
