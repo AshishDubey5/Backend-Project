@@ -1,4 +1,23 @@
 $kind: http-request
-url: "{{server}}/videos/"
+url: "{{server}}/videos/6aba910abdd24dbc67eaca43"
 method: PATCH
+body:
+  type: formdata
+  content:
+    - type: text
+      key: title
+      value: changed title
+      description: ""
+      disabled: false
+    - type: text
+      key: description
+      value: this is updated description
+      description: ""
+      disabled: false
+    - type: file
+      key: thumbnail
+      src:
+        - /C:/Users/dubey/OneDrive/Pictures/beautiful-domestic-cat-laying-fence.jpg
+      description: ""
+      disabled: false
 order: 4086920114469065

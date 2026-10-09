@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/videos/6ac88bf21b6efbfcc7997558"
+method: DELETE
+order: 4238894291106195
