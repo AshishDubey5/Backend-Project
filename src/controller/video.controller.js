@@ -152,4 +152,37 @@ const updateVideo = asyncHandler(async (req, res) => {
       new ApiResponse(200, updateVideo, "Video details updated successfully")
     );
 });
-export { publishAVideo, getVideoById, updateVideo };
+
+const deleteVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  // 1. Validate video ID
+  if (!isValidObjectId(videoId)) {
+    throw new APIError(400, "Invalid video id");
+  }
+
+  // 2. Find video to verify it exists
+  const video = await Video.findById(videoId);
+
+  if (!video) {
+    throw new APIError(404, "Video not found");
+  }
+
+  // 3. Verify user ownership
+  if (video.owner.toString() !== req.user?._id.toString()) {
+    throw new APIError(403, "You do not have permission to delete this video");
+  }
+
+  // 4. Delete the video from database
+  const deletedVideo = await Video.findByIdAndDelete(videoId);
+
+  if (!deletedVideo) {
+    throw new APIError(500, "Something went wrong while deleting the video");
+  }
+
+  // 5. Return response
+  return res
+    .status(200)
+    .json(new ApiResponse(200, deletedVideo, "Video deleted successfully"));
+});
+export { publishAVideo, getVideoById, updateVideo, deleteVideo };
